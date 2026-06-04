@@ -273,6 +273,18 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
         finishLoader();
       }
 
+      function retryHeroVideo() {
+        if (!heroVideo || !heroVideo.paused || document.hidden) return;
+        heroVideo.muted = true;
+        heroVideo.play().catch(() => {});
+      }
+
+      window.addEventListener("pointerdown", retryHeroVideo, { passive: true });
+      window.addEventListener("touchstart", retryHeroVideo, { passive: true });
+      window.addEventListener("focus", retryHeroVideo);
+      window.addEventListener("pageshow", retryHeroVideo);
+      document.addEventListener("visibilitychange", retryHeroVideo);
+
       heroMedia.addEventListener("change", () => {
         const configuredVideo = configureHeroVideo();
         configuredVideo?.play().catch(() => {});

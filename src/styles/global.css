@@ -175,7 +175,6 @@ button {
   display: grid;
   place-items: end start;
   isolation: isolate;
-  background: var(--bg) var(--hero-poster, none) center / cover no-repeat;
   padding: clamp(5.4rem, 8vw, 7rem) clamp(1rem, 3.4vw, 3rem) clamp(1rem, 3.4vw, 3rem);
 }
 
@@ -187,13 +186,7 @@ button {
   height: 100%;
   object-fit: cover;
   background: var(--bg);
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 180ms var(--ease-out);
-}
-
-.hero-video.is-playing {
-  opacity: 1;
 }
 
 .hero-video::-webkit-media-controls,

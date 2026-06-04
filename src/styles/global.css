@@ -160,6 +160,7 @@ button {
   height: 100svh;
   min-height: 100svh;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   overflow: clip;
 }
 
@@ -763,7 +764,7 @@ h1 {
 
 @media (max-width: 700px) {
   html {
-    scroll-snap-type: none;
+    scroll-snap-type: y mandatory;
   }
 
   .cursor-trail {

@@ -245,12 +245,15 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       let progress = 0;
+      let loaderFinished = false;
       const progressTimer = window.setInterval(() => {
         progress = Math.min(progress + Math.ceil(Math.random() * 9), 92);
         loaderCount.textContent = String(progress).padStart(2, "0");
       }, 90);
 
       function finishLoader() {
+        if (loaderFinished) return;
+        loaderFinished = true;
         window.clearInterval(progressTimer);
         loaderCount.textContent = "100";
         window.setTimeout(() => loader?.classList.add("is-hidden"), 280);
@@ -283,10 +286,8 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
       }
 
       if (heroVideo) {
-        heroVideo.addEventListener("canplay", finishLoader, { once: true });
-        const activeVideo = configureHeroVideo();
-        activeVideo?.play().catch(() => finishLoader());
-        window.setTimeout(finishLoader, 2200);
+        configureHeroVideo();
+        playHeroVideo();
       } else {
         finishLoader();
       }
@@ -300,7 +301,10 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
       function playHeroVideo(retries = 2) {
         if (!heroVideo || reduceMotion || document.hidden || !isHeroVideoVisible()) return;
         heroVideo.play()
-          .then(() => heroVideo.classList.add("is-playing"))
+          .then(() => {
+            heroVideo.classList.add("is-playing");
+            finishLoader();
+          })
           .catch(() => {
             heroVideo.classList.remove("is-playing");
             if (retries > 0) window.setTimeout(() => playHeroVideo(retries - 1), 360);
@@ -311,14 +315,21 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
         heroVideo.classList.remove("is-playing");
         window.setTimeout(playHeroVideo, 120);
       });
-      heroVideo?.addEventListener("playing", () => heroVideo.classList.add("is-playing"));
+      heroVideo?.addEventListener("playing", () => {
+        heroVideo.classList.add("is-playing");
+        finishLoader();
+      });
       heroVideo?.addEventListener("loadedmetadata", () => playHeroVideo());
+      heroVideo?.addEventListener("canplay", () => {
+        if (!loaderFinished) loaderCount.textContent = "99";
+      }, { once: true });
       heroVideo?.addEventListener("canplay", () => playHeroVideo(), { once: true });
       heroVideo?.addEventListener("ended", () => {
         heroVideo.currentTime = 0;
         playHeroVideo();
       });
       heroSection?.addEventListener("pointerup", () => playHeroVideo(0));
+      loader?.addEventListener("pointerup", () => playHeroVideo(0));
       window.addEventListener("focus", playHeroVideo);
       window.addEventListener("pageshow", playHeroVideo);
       window.addEventListener("scroll", playHeroVideo, { passive: true });

@@ -25,6 +25,13 @@
   --acid: oklch(0.83 0.18 116);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --font: "Alte Haas Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --page-height: 100svh;
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --page-height: 100dvh;
+  }
 }
 
 * {
@@ -157,8 +164,8 @@ button {
 
 .panel {
   position: relative;
-  height: 100svh;
-  min-height: 100svh;
+  height: var(--page-height);
+  min-height: var(--page-height);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   overflow: clip;
@@ -653,7 +660,7 @@ h1 {
 }
 
 .menu-panel {
-  min-height: 100svh;
+  min-height: var(--page-height);
   display: grid;
   grid-template-rows: auto 1fr auto;
   padding: clamp(1rem, 3.4vw, 3rem);
@@ -734,7 +741,7 @@ h1 {
   }
 
   .press-card {
-    min-height: 58svh;
+    min-height: calc(var(--page-height) * 0.58);
   }
 
   .release-actions {
@@ -772,7 +779,7 @@ h1 {
   }
 
   .hero {
-    min-height: 100svh;
+    min-height: var(--page-height);
     padding: 1rem;
   }
 
@@ -818,7 +825,7 @@ h1 {
   }
 
   .panel {
-    min-height: 100svh;
+    min-height: var(--page-height);
   }
 
   .menu-brand {
@@ -826,7 +833,7 @@ h1 {
   }
 
   .press-card {
-    min-height: 76svh;
+    min-height: calc(var(--page-height) * 0.76);
     padding: 4.4rem 1rem 1rem;
   }
 

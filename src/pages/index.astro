@@ -1,0 +1,410 @@
+---
+import "../styles/global.css";
+
+const links = {
+  spotify: "https://open.spotify.com/intl-es/artist/7qsqw1OnOyZBKCpxcuf04U?si=fxKgWv3mQM6xf6NUig4pQQ",
+  instagram: "https://www.instagram.com/13cubi/",
+  haste: "https://youtu.be/0iBCNzfEsEw",
+  film: "https://www.revistafilm.com/los-nuevos-talentos-filman-musica-haste-chico-invisible-ser-social-wtc-se-y-deja-ser-noche-corto-y-libero-darwin/"
+};
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta
+      name="description"
+      content="CUBI, artista cubano radicado en Montevideo. Latin bedroom trap, alt reggaeton y alt-pop self-produced."
+    />
+    <title>CUBI</title>
+  </head>
+  <body>
+    <canvas class="cursor-trail" aria-hidden="true"></canvas>
+
+    <div class="loader" data-loader>
+      <div class="loader__mark">CUBI</div>
+      <div class="loader__count" data-loader-count>00</div>
+    </div>
+
+    <header class="site-header" aria-label="Navegacion principal">
+      <a href="mailto:simxnherrera@gmail.com" class="header-link">contacto</a>
+      <button class="header-link header-button" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false">
+        menu
+      </button>
+    </header>
+
+    <main class="site-shell">
+      <section class="panel hero" aria-labelledby="hero-title">
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          data-desktop-src="/media/haste-hero-desktop.mp4"
+          data-mobile-src="/media/haste-hero-mobile.mp4"
+          data-desktop-poster="/media/haste-poster-desktop.jpg"
+          data-mobile-poster="/media/haste-poster-mobile.jpg"
+          data-hero-video
+        ></video>
+
+        <div class="hero-shade" aria-hidden="true"></div>
+
+        <div class="hero-copy">
+          <p class="micro">Havana / Montevideo</p>
+          <h1 id="hero-title">CUBI</h1>
+          <p class="hero-line">
+            latin bedroom trap, alt reggaeton y alt-pop self-produced.
+          </p>
+          <div class="hero-actions" aria-label="Acciones principales">
+            <a href="#llamada-perdida" class="action action--primary"><span>nuevo single</span></a>
+            <a href={links.haste} class="action"><span>ver Haste</span></a>
+          </div>
+        </div>
+
+        <div class="hero-nudge" data-hero-nudge aria-hidden="true">
+          <span></span>
+        </div>
+      </section>
+
+      <section class="panel release-panel" id="llamada-perdida" aria-labelledby="release-title">
+        <div class="release-layout">
+          <div class="release-main">
+            <p class="micro">próximo single</p>
+            <h2 id="release-title">LLAMADA PERDIDA</h2>
+            <p>
+              julio 2026, SAVE THE DATE
+            </p>
+          </div>
+          <div class="release-actions">
+            <a href={links.spotify} class="action action--dark action--with-icon">
+              <span class="brand-icon brand-icon--spotify" aria-hidden="true"></span>
+              <span>Spotify</span>
+            </a>
+            <a href={links.instagram} class="action action--dark action--with-icon">
+              <span class="brand-icon brand-icon--instagram" aria-hidden="true"></span>
+              <span>Instagram</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel archive-panel" aria-labelledby="archive-title">
+        <div class="archive-head">
+          <h2 id="archive-title">releases / videos</h2>
+        </div>
+
+        <div class="project-list">
+          <a class="project-row" href="#llamada-perdida">
+            <span>01</span>
+            <strong>LLAMADA PERDIDA</strong>
+            <em>proximo single</em>
+          </a>
+          <a class="project-row" href={links.haste}>
+            <span>02</span>
+            <strong>Haste</strong>
+            <em>videoclip</em>
+          </a>
+          <a class="project-row" href={links.spotify}>
+            <span>03</span>
+            <strong>one trick pony</strong>
+            <em>EP</em>
+          </a>
+        </div>
+      </section>
+
+      <section class="panel press-panel" aria-labelledby="press-title">
+        <a class="press-card" href={links.film} aria-label="Leer mencion en Revista Film">
+          <video
+            class="press-card__video"
+            muted
+            loop
+            playsinline
+            preload="none"
+            poster="/media/llamada-press-poster-desktop.jpg"
+            aria-hidden="true"
+            data-press-video
+          >
+            <source media="(max-width: 700px)" src="/media/llamada-press-mobile.mp4" type="video/mp4" />
+            <source src="/media/llamada-press-desktop.mp4" type="video/mp4" />
+          </video>
+          <div class="press-card__shade" aria-hidden="true"></div>
+          <div class="press-card__content">
+            <div class="press-card__meta">
+              <span>prensa</span>
+              <span>Revista Film</span>
+              <span>Mauro Sequeira</span>
+              <span>2025</span>
+            </div>
+            <blockquote id="press-title">
+              “La espera, calma, y frialdad en contrapunto con la desesperación,
+              inquietud y búsqueda constante (...) convergen en un encuentro a
+              punta de escopeta, en el que se decide cuáles viven a costa de la
+              muerte de su contraparte.”
+            </blockquote>
+            <p>
+              sobre <strong>Haste</strong>, dirigido por Julietta Magliano y CUBI.
+            </p>
+          </div>
+        </a>
+      </section>
+
+      <section class="panel about-panel" aria-labelledby="about-title">
+        <div class="about-grid">
+          <h2 id="about-title">singer / songwriter / producer based in Montevideo, UY</h2>
+          <div class="about-copy">
+            <p>
+              CUBI es el proyecto musical de Simón Herrera, cantautor y productor cubano-uruguayo que mezcla trap, reggaeton y pop alternativo para construir un universo sonoro propio.
+            </p>
+            <div class="about-links">
+              <a href="mailto:simxnherrera@gmail.com" class="action action--dark action--featured"><span>contacto</span></a>
+              <a href={links.spotify} class="action action--dark action--with-icon">
+                <span class="brand-icon brand-icon--spotify" aria-hidden="true"></span>
+                <span>Spotify</span>
+              </a>
+              <a href={links.instagram} class="action action--dark action--with-icon">
+                <span class="brand-icon brand-icon--instagram" aria-hidden="true"></span>
+                <span>Instagram</span>
+              </a>
+              <a href={links.haste} class="action action--dark action--with-icon">
+                <span class="brand-icon brand-icon--youtube" aria-hidden="true"></span>
+                <span>YouTube</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside class="menu-overlay" id="site-menu" data-menu aria-hidden="true">
+      <div class="menu-panel" role="dialog" aria-modal="true" aria-label="Menu principal">
+        <button class="menu-close" type="button" data-menu-close>close</button>
+        <div class="menu-brand">CUBI</div>
+        <nav class="menu-list" aria-label="Indice de sitio">
+          <a href="#llamada-perdida" data-menu-link>
+            <span>01</span>
+            <strong>LLAMADA PERDIDA</strong>
+            <em>proximo single</em>
+          </a>
+          <a href={links.haste} data-menu-link>
+            <span>02</span>
+            <strong>Haste</strong>
+            <em>videoclip</em>
+          </a>
+          <a href={links.spotify} data-menu-link>
+            <span>03</span>
+            <strong>one trick pony</strong>
+            <em>EP</em>
+          </a>
+          <a href="mailto:simxnherrera@gmail.com" data-menu-link>
+            <span>04</span>
+            <strong>contacto</strong>
+            <em>booking / press / collabs</em>
+          </a>
+        </nav>
+      </div>
+    </aside>
+
+    <script>
+      const loader = document.querySelector("[data-loader]");
+      const loaderCount = document.querySelector("[data-loader-count]");
+      const heroVideo = document.querySelector("[data-hero-video]");
+      const heroMedia = window.matchMedia("(max-width: 700px)");
+      const pressVideo = document.querySelector("[data-press-video]");
+      const menu = document.querySelector("[data-menu]");
+      const menuOpen = document.querySelector("[data-menu-open]");
+      const menuClose = document.querySelector("[data-menu-close]");
+      const menuLinks = document.querySelectorAll("[data-menu-link]");
+      const trailCanvas = document.querySelector(".cursor-trail");
+      const header = document.querySelector(".site-header");
+      const heroNudge = document.querySelector("[data-hero-nudge]");
+
+      let progress = 0;
+      const progressTimer = window.setInterval(() => {
+        progress = Math.min(progress + Math.ceil(Math.random() * 9), 92);
+        loaderCount.textContent = String(progress).padStart(2, "0");
+      }, 90);
+
+      function finishLoader() {
+        window.clearInterval(progressTimer);
+        loaderCount.textContent = "100";
+        window.setTimeout(() => loader?.classList.add("is-hidden"), 280);
+      }
+
+      function configureHeroVideo() {
+        if (!heroVideo) return null;
+
+        const src = heroMedia.matches ? heroVideo.dataset.mobileSrc : heroVideo.dataset.desktopSrc;
+        const poster = heroMedia.matches ? heroVideo.dataset.mobilePoster : heroVideo.dataset.desktopPoster;
+
+        if (poster) heroVideo.poster = poster;
+        if (src && heroVideo.getAttribute("src") !== src) {
+          heroVideo.setAttribute("src", src);
+          heroVideo.load();
+        }
+
+        return heroVideo;
+      }
+
+      if (heroVideo) {
+        heroVideo.addEventListener("canplay", finishLoader, { once: true });
+        const activeVideo = configureHeroVideo();
+        activeVideo?.play().catch(() => finishLoader());
+        window.setTimeout(finishLoader, 2200);
+      } else {
+        finishLoader();
+      }
+
+      heroMedia.addEventListener("change", () => {
+        const configuredVideo = configureHeroVideo();
+        configuredVideo?.play().catch(() => {});
+      });
+
+      function openMenu() {
+        menu?.classList.add("is-open");
+        menu?.setAttribute("aria-hidden", "false");
+        menuOpen?.setAttribute("aria-expanded", "true");
+        document.body.classList.add("menu-active");
+        menuClose?.focus();
+      }
+
+      function closeMenu() {
+        menu?.classList.remove("is-open");
+        menu?.setAttribute("aria-hidden", "true");
+        menuOpen?.setAttribute("aria-expanded", "false");
+        document.body.classList.remove("menu-active");
+        menuOpen?.focus();
+      }
+
+      menuOpen?.addEventListener("click", openMenu);
+      menuClose?.addEventListener("click", closeMenu);
+      menuLinks.forEach((link) => link.addEventListener("click", closeMenu));
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && menu?.classList.contains("is-open")) closeMenu();
+      });
+
+      function setHeaderTone() {
+        const redPanel = [...document.querySelectorAll(".release-panel")].some((panel) => {
+          const rect = panel.getBoundingClientRect();
+          return rect.top < 90 && rect.bottom > 90;
+        });
+        const violetPanel = [...document.querySelectorAll(".about-panel")].some((panel) => {
+          const rect = panel.getBoundingClientRect();
+          return rect.top < 90 && rect.bottom > 90;
+        });
+        header?.classList.toggle("is-dark", redPanel);
+        header?.classList.toggle("is-light", violetPanel);
+      }
+
+      setHeaderTone();
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+
+      function setScrollState() {
+        setHeaderTone();
+        heroNudge?.classList.toggle("is-hidden", window.scrollY > 24);
+      }
+
+      heroNudge?.classList.toggle("is-hidden", window.scrollY > 24);
+      window.addEventListener("scroll", setScrollState, { passive: true });
+
+      if (pressVideo && !reduceMotion) {
+        let pressVideoVisible = false;
+
+        const playPressVideo = (restart = false) => {
+          pressVideo.load();
+          if (restart) pressVideo.currentTime = 0;
+          pressVideo.play().catch(() => {});
+        };
+
+        if ("IntersectionObserver" in window) {
+          const pressObserver = new IntersectionObserver((entries) => {
+            const isVisible = entries.some((entry) => entry.isIntersecting);
+
+            if (isVisible && !pressVideoVisible) {
+              pressVideoVisible = true;
+              playPressVideo(true);
+            }
+
+            if (!isVisible && pressVideoVisible) {
+              pressVideoVisible = false;
+              pressVideo.pause();
+            }
+          }, { threshold: 0.22 });
+
+          pressObserver.observe(pressVideo);
+        } else {
+          playPressVideo(true);
+        }
+      }
+
+      if (trailCanvas && !reduceMotion && finePointer) {
+        const ctx = trailCanvas.getContext("2d");
+        const points = [];
+        const maxPoints = 22;
+        let width = 0;
+        let height = 0;
+        let pixelRatio = 1;
+
+        function resizeTrail() {
+          pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+          width = window.innerWidth;
+          height = window.innerHeight;
+          trailCanvas.width = width * pixelRatio;
+          trailCanvas.height = height * pixelRatio;
+          trailCanvas.style.width = `${width}px`;
+          trailCanvas.style.height = `${height}px`;
+          ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        }
+
+        function addPoint(event) {
+          points.push({ x: event.clientX, y: event.clientY, life: 1 });
+          if (points.length > maxPoints) points.shift();
+        }
+
+        function drawTrail() {
+          ctx.clearRect(0, 0, width, height);
+          if (points.length > 1) {
+            ctx.beginPath();
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = "round";
+            ctx.lineJoin = "round";
+            for (let i = 0; i < points.length; i += 1) {
+              const point = points[i];
+              if (i === 0) ctx.moveTo(point.x, point.y);
+              else ctx.lineTo(point.x, point.y);
+            }
+            ctx.strokeStyle = "rgba(236, 0, 0, 0.72)";
+            ctx.stroke();
+          }
+
+          for (let i = 0; i < points.length; i += 1) {
+            const point = points[i];
+            point.life -= 0.022;
+            if (point.life <= 0) continue;
+
+            const radius = 3 + i * 0.24;
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(236, 0, 0, ${Math.max(point.life, 0) * 0.86})`;
+            ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          while (points[0]?.life <= 0) points.shift();
+          window.requestAnimationFrame(drawTrail);
+        }
+
+        resizeTrail();
+        window.addEventListener("resize", resizeTrail);
+        window.addEventListener("pointermove", addPoint, { passive: true });
+        drawTrail();
+      }
+    </script>
+  </body>
+</html>

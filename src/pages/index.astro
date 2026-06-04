@@ -10,6 +10,8 @@ const links = {
 
 const artistDescription =
   "CUBI es el proyecto musical de Simón Herrera, cantautor y productor cubano-uruguayo que mezcla trap, reggaeton y pop alternativo para construir un universo sonoro propio.";
+const socialImage = "https://13cubi.github.io/media/haste-poster-desktop.jpg";
+const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo visual de Haste.";
 ---
 
 <!doctype html>
@@ -23,9 +25,13 @@ const artistDescription =
     <meta property="og:title" content="CUBI" />
     <meta property="og:description" content={artistDescription} />
     <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="CUBI" />
     <meta name="twitter:description" content={artistDescription} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     <title>CUBI</title>
   </head>
   <body>

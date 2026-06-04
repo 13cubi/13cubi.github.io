@@ -53,11 +53,16 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
       <section class="panel hero" aria-labelledby="hero-title">
         <video
           class="hero-video"
+          aria-hidden="true"
           autoplay
           muted
+          defaultMuted
           loop
           playsinline
-          preload="metadata"
+          preload="auto"
+          disablepictureinpicture
+          controlslist="nodownload nofullscreen noremoteplayback"
+          tabindex="-1"
           data-desktop-src="/media/haste-hero-desktop.mp4"
           data-mobile-src="/media/haste-hero-mobile.mp4"
           data-desktop-poster="/media/haste-poster-desktop.jpg"
@@ -236,6 +241,7 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
       const header = document.querySelector(".site-header");
       const heroNudge = document.querySelector("[data-hero-nudge]");
       const panels = [...document.querySelectorAll(".panel")];
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
       let progress = 0;
       const progressTimer = window.setInterval(() => {
@@ -255,6 +261,15 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
         const src = heroMedia.matches ? heroVideo.dataset.mobileSrc : heroVideo.dataset.desktopSrc;
         const poster = heroMedia.matches ? heroVideo.dataset.mobilePoster : heroVideo.dataset.desktopPoster;
 
+        heroVideo.controls = false;
+        heroVideo.muted = true;
+        heroVideo.defaultMuted = true;
+        heroVideo.loop = true;
+        heroVideo.playsInline = true;
+        heroVideo.setAttribute("muted", "");
+        heroVideo.setAttribute("playsinline", "");
+        heroVideo.setAttribute("webkit-playsinline", "");
+
         if (poster) heroVideo.poster = poster;
         if (src && heroVideo.getAttribute("src") !== src) {
           heroVideo.setAttribute("src", src);
@@ -272,6 +287,33 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
       } else {
         finishLoader();
       }
+
+      function isHeroVideoVisible() {
+        if (!heroVideo) return false;
+        const rect = heroVideo.getBoundingClientRect();
+        return rect.bottom > 0 && rect.top < window.innerHeight;
+      }
+
+      function playHeroVideo(retries = 2) {
+        if (!heroVideo || reduceMotion || document.hidden || !isHeroVideoVisible()) return;
+        heroVideo.play().catch(() => {
+          if (retries > 0) window.setTimeout(() => playHeroVideo(retries - 1), 360);
+        });
+      }
+
+      heroVideo?.addEventListener("pause", () => {
+        window.setTimeout(playHeroVideo, 120);
+      });
+      heroVideo?.addEventListener("loadedmetadata", () => playHeroVideo());
+      heroVideo?.addEventListener("canplay", () => playHeroVideo(), { once: true });
+      heroVideo?.addEventListener("ended", () => {
+        heroVideo.currentTime = 0;
+        playHeroVideo();
+      });
+      window.addEventListener("focus", playHeroVideo);
+      window.addEventListener("pageshow", playHeroVideo);
+      window.addEventListener("scroll", playHeroVideo, { passive: true });
+      document.addEventListener("visibilitychange", playHeroVideo);
 
       heroMedia.addEventListener("change", () => {
         const configuredVideo = configureHeroVideo();
@@ -316,7 +358,6 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
 
       setHeaderTone();
 
-      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const finePointer = window.matchMedia("(pointer: fine)").matches;
       const mobilePagerMedia = window.matchMedia("(max-width: 700px)");
 

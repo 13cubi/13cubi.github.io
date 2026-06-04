@@ -50,7 +50,7 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
     </header>
 
     <main class="site-shell">
-      <section class="panel hero" aria-labelledby="hero-title">
+      <section class="panel hero" aria-labelledby="hero-title" data-hero-section>
         <video
           class="hero-video"
           aria-hidden="true"
@@ -239,6 +239,7 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
       const menuLinks = document.querySelectorAll("[data-menu-link]");
       const trailCanvas = document.querySelector(".cursor-trail");
       const header = document.querySelector(".site-header");
+      const heroSection = document.querySelector("[data-hero-section]");
       const heroNudge = document.querySelector("[data-hero-nudge]");
       const panels = [...document.querySelectorAll(".panel")];
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -271,7 +272,9 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
         heroVideo.setAttribute("webkit-playsinline", "");
 
         if (poster) heroVideo.poster = poster;
+        if (poster) heroSection?.style.setProperty("--hero-poster", `url("${poster}")`);
         if (src && heroVideo.getAttribute("src") !== src) {
+          heroVideo.classList.remove("is-playing");
           heroVideo.setAttribute("src", src);
           heroVideo.load();
         }
@@ -296,20 +299,26 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
 
       function playHeroVideo(retries = 2) {
         if (!heroVideo || reduceMotion || document.hidden || !isHeroVideoVisible()) return;
-        heroVideo.play().catch(() => {
-          if (retries > 0) window.setTimeout(() => playHeroVideo(retries - 1), 360);
-        });
+        heroVideo.play()
+          .then(() => heroVideo.classList.add("is-playing"))
+          .catch(() => {
+            heroVideo.classList.remove("is-playing");
+            if (retries > 0) window.setTimeout(() => playHeroVideo(retries - 1), 360);
+          });
       }
 
       heroVideo?.addEventListener("pause", () => {
+        heroVideo.classList.remove("is-playing");
         window.setTimeout(playHeroVideo, 120);
       });
+      heroVideo?.addEventListener("playing", () => heroVideo.classList.add("is-playing"));
       heroVideo?.addEventListener("loadedmetadata", () => playHeroVideo());
       heroVideo?.addEventListener("canplay", () => playHeroVideo(), { once: true });
       heroVideo?.addEventListener("ended", () => {
         heroVideo.currentTime = 0;
         playHeroVideo();
       });
+      heroSection?.addEventListener("pointerup", () => playHeroVideo(0));
       window.addEventListener("focus", playHeroVideo);
       window.addEventListener("pageshow", playHeroVideo);
       window.addEventListener("scroll", playHeroVideo, { passive: true });

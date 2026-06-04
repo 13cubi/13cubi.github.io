@@ -229,6 +229,7 @@ const artistDescription =
       const trailCanvas = document.querySelector(".cursor-trail");
       const header = document.querySelector(".site-header");
       const heroNudge = document.querySelector("[data-hero-nudge]");
+      const panels = [...document.querySelectorAll(".panel")];
 
       let progress = 0;
       const progressTimer = window.setInterval(() => {
@@ -311,6 +312,7 @@ const artistDescription =
 
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const finePointer = window.matchMedia("(pointer: fine)").matches;
+      const mobilePagerMedia = window.matchMedia("(max-width: 700px)");
 
       function setScrollState() {
         setHeaderTone();
@@ -319,6 +321,108 @@ const artistDescription =
 
       heroNudge?.classList.toggle("is-hidden", window.scrollY > 24);
       window.addEventListener("scroll", setScrollState, { passive: true });
+
+      if (panels.length && !reduceMotion) {
+        let isPaging = false;
+        let pagerFrame = 0;
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchDeltaY = 0;
+
+        const isMobilePagerActive = () => mobilePagerMedia.matches && !document.body.classList.contains("menu-active");
+
+        function getCurrentPanelIndex() {
+          const viewportMiddle = window.scrollY + window.innerHeight / 2;
+          return panels.reduce((closestIndex, panel, index) => {
+            const panelMiddle = panel.offsetTop + panel.offsetHeight / 2;
+            const closestMiddle = panels[closestIndex].offsetTop + panels[closestIndex].offsetHeight / 2;
+            return Math.abs(panelMiddle - viewportMiddle) < Math.abs(closestMiddle - viewportMiddle)
+              ? index
+              : closestIndex;
+          }, 0);
+        }
+
+        function easeOutCubic(progress) {
+          return 1 - Math.pow(1 - progress, 3);
+        }
+
+        function setScrollTop(value) {
+          document.documentElement.scrollTop = value;
+          document.body.scrollTop = value;
+        }
+
+        function pageToPanel(index) {
+          const nextIndex = Math.max(0, Math.min(index, panels.length - 1));
+          const startY = window.scrollY;
+          const targetY = panels[nextIndex].offsetTop;
+          const distance = targetY - startY;
+
+          if (Math.abs(distance) < 1) return;
+
+          isPaging = true;
+          if (pagerFrame) window.cancelAnimationFrame(pagerFrame);
+
+          const htmlScrollBehavior = document.documentElement.style.scrollBehavior;
+          const bodyScrollBehavior = document.body.style.scrollBehavior;
+          document.documentElement.style.scrollBehavior = "auto";
+          document.body.style.scrollBehavior = "auto";
+
+          const startTime = window.performance.now();
+          const duration = 780;
+
+          function animateScroll(now) {
+            const progress = Math.min((now - startTime) / duration, 1);
+            setScrollTop(startY + distance * easeOutCubic(progress));
+
+            if (progress < 1) {
+              pagerFrame = window.requestAnimationFrame(animateScroll);
+              return;
+            }
+
+            pagerFrame = 0;
+            setScrollTop(targetY);
+            document.documentElement.style.scrollBehavior = htmlScrollBehavior;
+            document.body.style.scrollBehavior = bodyScrollBehavior;
+            isPaging = false;
+          }
+
+          pagerFrame = window.requestAnimationFrame(animateScroll);
+        }
+
+        window.addEventListener("wheel", (event) => {
+          if (!isMobilePagerActive()) return;
+          event.preventDefault();
+          if (isPaging || Math.abs(event.deltaY) < 18) return;
+          pageToPanel(getCurrentPanelIndex() + (event.deltaY > 0 ? 1 : -1));
+        }, { passive: false });
+
+        window.addEventListener("touchstart", (event) => {
+          if (!isMobilePagerActive()) return;
+          const touch = event.touches[0];
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+          touchDeltaY = 0;
+        }, { passive: true });
+
+        window.addEventListener("touchmove", (event) => {
+          if (!isMobilePagerActive()) return;
+          const touch = event.touches[0];
+          const deltaX = touchStartX - touch.clientX;
+          touchDeltaY = touchStartY - touch.clientY;
+          if (Math.abs(touchDeltaY) > Math.abs(deltaX) && Math.abs(touchDeltaY) > 8) {
+            event.preventDefault();
+          }
+        }, { passive: false });
+
+        window.addEventListener("touchend", () => {
+          if (!isMobilePagerActive() || isPaging) return;
+          if (Math.abs(touchDeltaY) > 46) {
+            pageToPanel(getCurrentPanelIndex() + (touchDeltaY > 0 ? 1 : -1));
+          } else {
+            pageToPanel(getCurrentPanelIndex());
+          }
+        });
+      }
 
       if (pressVideo && !reduceMotion) {
         let pressVideoVisible = false;

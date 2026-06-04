@@ -771,7 +771,8 @@ h1 {
 
 @media (max-width: 700px) {
   html {
-    scroll-snap-type: y mandatory;
+    overscroll-behavior-y: contain;
+    scroll-snap-type: none;
   }
 
   .cursor-trail {

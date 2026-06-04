@@ -7,6 +7,9 @@ const links = {
   haste: "https://youtu.be/0iBCNzfEsEw",
   film: "https://www.revistafilm.com/los-nuevos-talentos-filman-musica-haste-chico-invisible-ser-social-wtc-se-y-deja-ser-noche-corto-y-libero-darwin/"
 };
+
+const artistDescription =
+  "CUBI es el proyecto musical de Simón Herrera, cantautor y productor cubano-uruguayo que mezcla trap, reguetón y pop alternativo para construir un universo sonoro propio.";
 ---
 
 <!doctype html>
@@ -16,10 +19,13 @@ const links = {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <meta
-      name="description"
-      content="CUBI, artista cubano radicado en Montevideo. Latin bedroom trap, alt reggaeton y alt-pop self-produced."
-    />
+    <meta name="description" content={artistDescription} />
+    <meta property="og:title" content="CUBI" />
+    <meta property="og:description" content={artistDescription} />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="CUBI" />
+    <meta name="twitter:description" content={artistDescription} />
     <title>CUBI</title>
   </head>
   <body>
@@ -30,7 +36,7 @@ const links = {
       <div class="loader__count" data-loader-count>00</div>
     </div>
 
-    <header class="site-header" aria-label="Navegacion principal">
+    <header class="site-header" aria-label="Navegación principal">
       <a href="mailto:simxnherrera@gmail.com" class="header-link">contacto</a>
       <button class="header-link header-button" type="button" data-menu-open aria-controls="site-menu" aria-expanded="false">
         menu
@@ -59,7 +65,7 @@ const links = {
           <p class="micro">Havana / Montevideo</p>
           <h1 id="hero-title">CUBI</h1>
           <p class="hero-line">
-            latin bedroom trap, alt reggaeton y alt-pop self-produced.
+            trap, reguetón y pop alternativo desde Montevideo.
           </p>
           <div class="hero-actions" aria-label="Acciones principales">
             <a href="#llamada-perdida" class="action action--primary"><span>nuevo single</span></a>
@@ -103,7 +109,7 @@ const links = {
           <a class="project-row" href="#llamada-perdida">
             <span>01</span>
             <strong>LLAMADA PERDIDA</strong>
-            <em>proximo single</em>
+            <em>próximo single</em>
           </a>
           <a class="project-row" href={links.haste}>
             <span>02</span>
@@ -119,7 +125,7 @@ const links = {
       </section>
 
       <section class="panel press-panel" aria-labelledby="press-title">
-        <a class="press-card" href={links.film} aria-label="Leer mencion en Revista Film">
+        <a class="press-card" href={links.film} aria-label="Leer mención en Revista Film">
           <video
             class="press-card__video"
             muted
@@ -159,7 +165,7 @@ const links = {
           <h2 id="about-title">singer / songwriter / producer based in Montevideo, UY</h2>
           <div class="about-copy">
             <p>
-              CUBI es el proyecto musical de Simón Herrera, cantautor y productor cubano-uruguayo que mezcla trap, reggaeton y pop alternativo para construir un universo sonoro propio.
+              {artistDescription}
             </p>
             <div class="about-links">
               <a href="mailto:simxnherrera@gmail.com" class="action action--dark action--featured"><span>contacto</span></a>
@@ -182,14 +188,14 @@ const links = {
     </main>
 
     <aside class="menu-overlay" id="site-menu" data-menu aria-hidden="true">
-      <div class="menu-panel" role="dialog" aria-modal="true" aria-label="Menu principal">
+      <div class="menu-panel" role="dialog" aria-modal="true" aria-label="Menú principal">
         <button class="menu-close" type="button" data-menu-close>close</button>
         <div class="menu-brand">CUBI</div>
-        <nav class="menu-list" aria-label="Indice de sitio">
+        <nav class="menu-list" aria-label="Índice de sitio">
           <a href="#llamada-perdida" data-menu-link>
             <span>01</span>
             <strong>LLAMADA PERDIDA</strong>
-            <em>proximo single</em>
+            <em>próximo single</em>
           </a>
           <a href={links.haste} data-menu-link>
             <span>02</span>

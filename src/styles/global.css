@@ -186,17 +186,6 @@ button {
   height: 100%;
   object-fit: cover;
   background: var(--bg);
-  pointer-events: none;
-}
-
-.hero-video::-webkit-media-controls,
-.hero-video::-webkit-media-controls-panel,
-.hero-video::-webkit-media-controls-overlay-play-button,
-.hero-video::-webkit-media-controls-start-playback-button {
-  display: none !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  -webkit-appearance: none;
 }
 
 .hero-shade {

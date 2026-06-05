@@ -264,30 +264,49 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
         return heroVideo;
       }
 
+      let heroVideoVisible = true;
+
+      const playHeroVideo = (restart = false) => {
+        const configuredVideo = configureHeroVideo();
+        if (!configuredVideo || document.hidden) return;
+
+        configuredVideo.muted = true;
+        if (restart && configuredVideo.readyState > 0) configuredVideo.currentTime = 0;
+        configuredVideo.play().catch(() => {});
+      };
+
       if (heroVideo) {
         heroVideo.addEventListener("canplay", finishLoader, { once: true });
-        const activeVideo = configureHeroVideo();
-        activeVideo?.play().catch(() => finishLoader());
+        playHeroVideo();
         window.setTimeout(finishLoader, 2200);
       } else {
         finishLoader();
       }
 
       function retryHeroVideo() {
-        if (!heroVideo || !heroVideo.paused || document.hidden) return;
-        heroVideo.muted = true;
-        heroVideo.play().catch(() => {});
+        if (!heroVideo || !heroVideoVisible || !heroVideo.paused || document.hidden) return;
+        playHeroVideo();
       }
 
       window.addEventListener("pointerdown", retryHeroVideo, { passive: true });
       window.addEventListener("touchstart", retryHeroVideo, { passive: true });
       window.addEventListener("focus", retryHeroVideo);
       window.addEventListener("pageshow", retryHeroVideo);
-      document.addEventListener("visibilitychange", retryHeroVideo);
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          heroVideo?.pause();
+          return;
+        }
+
+        retryHeroVideo();
+      });
 
       heroMedia.addEventListener("change", () => {
-        const configuredVideo = configureHeroVideo();
-        configuredVideo?.play().catch(() => {});
+        if (heroVideoVisible) {
+          playHeroVideo();
+        } else {
+          configureHeroVideo()?.pause();
+        }
       });
 
       function openMenu() {
@@ -469,6 +488,28 @@ const socialImageAlt = "CUBI vestido de traje frente al mar, imagen del universo
           pressObserver.observe(pressVideo);
         } else {
           playPressVideo(true);
+        }
+      }
+
+      if (heroVideo) {
+        if ("IntersectionObserver" in window) {
+          const heroObserver = new IntersectionObserver((entries) => {
+            const isVisible = entries.some((entry) => entry.isIntersecting);
+
+            if (isVisible && !heroVideoVisible) {
+              heroVideoVisible = true;
+              playHeroVideo(true);
+            }
+
+            if (!isVisible && heroVideoVisible) {
+              heroVideoVisible = false;
+              heroVideo.pause();
+            }
+          }, { threshold: 0.22 });
+
+          heroObserver.observe(heroVideo);
+        } else {
+          playHeroVideo();
         }
       }
 
